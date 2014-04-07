@@ -5,7 +5,7 @@ from collections import defaultdict
 from utils import sync_and_read
 
 ISO6393_URL = "http://www-01.sil.org/iso639-3/iso-639-3_Name_Index.tab"
-ISO6393_TXT = "iso6393.txt"
+ISO6393_TXT = "data/iso6393.txt"
 
 iso6393_tsv = sync_and_read(ISO6393_URL, ISO6393_TXT)
 iso6393_data = iso6393_tsv.partition('\n')[2]
@@ -21,7 +21,7 @@ for i in iso6393_data.split('\n'):
 ###################################################################
 
 MACROLANGS_URL = "http://www-01.sil.org/iso639-3/iso-639-3-macrolanguages.tab"
-MACROLANGS_TXT = "marcolangs.txt"
+MACROLANGS_TXT = "data/marcolangs.txt"
 
 marcolang_tsv = sync_and_read(MACROLANGS_URL, MACROLANGS_TXT)
 macrolang_data = marcolang_tsv.partition('\n')[2]
