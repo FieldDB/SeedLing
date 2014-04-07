@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from collections import defaultdict
-from utils import sync_and_read, parentdirectory
+from utils import sync_and_read
 
 WALS_URL = "http://wals.info/languoid.tab?sEcho=1&iSortingCols=1"+\
             "&iSortCol_0=0&sSortDir_0=asc"

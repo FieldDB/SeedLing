@@ -7,7 +7,7 @@ def sync_and_read(url, filename):
   """
   import urllib2
   try: # Getting an updated version of the file online.
-    infile = urllib2.urlopen(url).read()
+    infile = urllib2.urlopen(url).read().decode('utf8')
     with open(filename,'w') as fout:
       fout.write(infile)
   except urllib2.URLError:
@@ -19,3 +19,4 @@ def parentdirectory():
   import os
   return os.path.abspath(os.path.join(os.path.dirname(__file__), 
                                       os.path.pardir))
+  
