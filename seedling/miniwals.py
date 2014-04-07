@@ -1,19 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from collections import defaultdict
-import urllib2
+from utils import sync_and_read, parentdirectory
 
 WALS_URL = "http://wals.info/languoid.tab?sEcho=1&iSortingCols=1"+\
             "&iSortCol_0=0&sSortDir_0=asc"
-WALS_TXT = "wals.txt"
+WALS_TXT = parentdirectory()+"wals.txt"
             
-try: # Getting an updated version of WALS online.
-  wals_tsv = urllib2.urlopen(WALS_URL).read()
-  with open(WALS_TXT,'w') as fout:
-    fout.write(wals_tsv)
-except urllib2.URLError:
-  wals_tsv = open(WALS_TXT, 'r').read()
-  
+wals_tsv = sync_and_read(WALS_URL, WALS_TXT)  
 headerline, _ , data = wals_tsv.partition('\n')
 
 WALS = {}
