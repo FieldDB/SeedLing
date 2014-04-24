@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 
 # Access modules from parent dir, see http://goo.gl/dZ5HVk
-import os, sys
-parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
-sys.path.append(parentddir)
-
 import tarfile, codecs, os, re, string, shutil
 from collections import defaultdict
 import cPickle as pickle
@@ -17,7 +13,7 @@ except:
 #bs.find_all = getattr(bs, 'find_all',False) or getattr(bs, 'findAll')
 
 
-def get_odin_igts(ODINFILE=parentddir+'/data/odin/odin-full.tar'):
+def get_odin_igts(ODINFILE='data/odin/odin-full.tar'):
   """
   Extracts the examples from the ODIN igts and returns a defaultdict(list),
   where the keys are the lang iso codes and values are the examples.
@@ -54,7 +50,7 @@ def get_odin_igts(ODINFILE=parentddir+'/data/odin/odin-full.tar'):
             raise; print eg
   return docs
 
-def load_odin_pickle(ODIN_PICKLE=parentddir+'/data/odin/odin-docs.pk'):
+def load_odin_pickle(ODIN_PICKLE='data/odin/odin-docs.pk'):
   """
   Loads odin-docs.pk and yield one IGT at a time.
   
@@ -81,8 +77,8 @@ def igts():
   for lang, examples in load_odin_pickle():
     yield lang, examples
     
-def source_sents(intarfile=parentddir+'/data/odin/odin-all.tar'):
-  """ Yield clean sentences from the clean ODIN tarball. """
+def source_sents(intarfile='data/odin/odin-all.tar'):
+  """ Yield sentences from ODIN tarball. """
   for infile in sorted(read_tarfile(intarfile)):
     language = infile.split('/')[-1].split('-')[1].split('.')[0].split('_')[0]
     with codecs.open(infile,'r','utf8') as fin:
@@ -93,8 +89,15 @@ def source_sents(intarfile=parentddir+'/data/odin/odin-all.tar'):
 def languages():
   """Returns the number of languages available from original data source."""
   return [str(i.name).partition('.')[0] \
-          for i in tarfile.open(parentddir+'/data/odin/odin-full.tar')]
+          for i in tarfile.open('data/odin/odin-full.tar')]
 
 def num_languages():
   """ Returns the number of languages available from original data source. """
   return len(languages())
+
+'''# USAGE:
+for lang, sent in source_sents():
+  print lang, sent
+print languages()
+print num_languages()
+'''

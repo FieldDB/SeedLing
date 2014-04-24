@@ -1,67 +1,8 @@
 # -*- coding: utf-8 -*-
 
 # Access modules from parent dir, see http://goo.gl/dZ5HVk
-import os, sys
-parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
-sys.path.append(parentddir)
-
-
-import codecs, os, zipfile, urllib, urllib2, tempfile, shutil, re, io
-from unicodize import is_utf8, what_the_encoding
-from utils import make_tarfile, read_tarfile
-
-def get_from_unicodedotorg(testing=False):
-  """ Crawl and clean UDHR files from www.unicode.org . """
-  TEMP_RAW_DIR = tempfile.mkdtemp()
-  UDHR_DOWNLOAD = 'http://www.unicode.org/udhr/d/'
-  AHREF_REGEX = '<a href="?\'?([^"\'>]*)'
-  
-  # Makes a temp output directory for the files that can be converted into utf8.
-  UDHR_UTF8_DIR = './udhr-utf8/' # for saving the temp udhr files.
-  if not os.path.exists(UDHR_UTF8_DIR):
-    os.makedirs(UDHR_UTF8_DIR)
-  # Get the directory page from the www.unicode.org UDHR page
-  unicode_page = urllib.urlopen(UDHR_DOWNLOAD).read()
-  # Crawls the www.unicode.org page for all udhr txt files.
-  for i in re.findall(AHREF_REGEX,unicode_page):
-    if i.endswith('.txt'):
-      print UDHR_DOWNLOAD+i
-      urllib.urlretrieve(UDHR_DOWNLOAD+i, filename=TEMP_RAW_DIR+i)
-      with io.open(TEMP_RAW_DIR+i,'r',encoding='utf8') as udhrfile:
-        # Gets the language from the end of the file line.
-        lang = udhrfile.readline().partition('-')[2].strip()
-        # Gets the language code from the filename.
-        langcode = i.partition('.')[0].partition('_')[2]
-        # Skip the header lines.
-        for _ in range(5): udhrfile.readline();
-        # Reads the rest of the lines and that's the udhr data.
-        the_rest = udhrfile.readlines()
-        data = "\n".join([i.strip() for i in the_rest if i.strip() != ''])
-        ##print langcode, data.split('\n')[0]
-        with codecs.open(UDHR_UTF8_DIR+'udhr-'+langcode+'.txt','w','utf8') as outfile:
-          print>>outfile, data
-      if testing:
-        break
-
-  if testing:
-    # Compress the utf8 UDHR files into a single tarfile in the test dir.
-      try:
-        make_tarfile('../test/udhr-unicode.tar',UDHR_UTF8_DIR)
-      except IOError:
-        # if function is called within the sugarlike/src/universalcorpus dir
-        # To move up directory to access sugarlike/data/ and sugarlike/test/.
-        make_tarfile('../../test/udhr-unicode.tar',UDHR_UTF8_DIR)
-      
-  else:
-    # Compresses the utf8 UDHR files into a single tarfile.
-    try:
-      make_tarfile('../data/udhr/udhr-unicode.tar',UDHR_UTF8_DIR)
-    except IOError:
-      # if function is called within the sugarlike/src/universalcorpus dir
-      # To move up directory to access sugarlike/data/ and sugarlike/test/.
-      make_tarfile('../../data/udhr/udhr-unicode.tar',UDHR_UTF8_DIR)  
-  # Remove the udhr-utf8 directory.
-  shutil.rmtree(UDHR_UTF8_DIR)
+import os, codecs, tempfile
+from utils import read_tarfile
 
 def enumerate_udhr(intarfile):
   """
@@ -92,7 +33,7 @@ def enumerate_udhr(intarfile):
       languages[lang].append(lang)
   return languages
 
-def documents(intarfile=parentddir+'/data/udhr/udhr-unicode.tar', \
+def documents(intarfile='data/udhr/udhr-unicode.tar', \
               bysentence=False):
   """ Yields UDHR by documents. """
   for infile in read_tarfile(intarfile):
@@ -106,20 +47,25 @@ def documents(intarfile=parentddir+'/data/udhr/udhr-unicode.tar', \
       else:
         yield language, fin.read()
         
-def sents(intarfile=parentddir+'/data/udhr/udhr-unicode.tar', \
-          bysentence=True):
+def sents(intarfile='data/udhr/udhr-unicode.tar', bysentence=True):
   return documents(intarfile, bysentence)
 
-def source_sents(intarfile=parentddir+'/data/udhr/udhr-unicode.tar', \
-          bysentence=True):
+def source_sents(intarfile='data/udhr/udhr-unicode.tar', bysentence=True):
   return sents(intarfile, bysentence)
 
 def languages():
   """ Returns a list of available languages from original data source. """
   langs = [i.partition('-')[2].partition('.')[0] for i in \
-           enumerate_udhr(intarfile=parentddir+ '/data/udhr/udhr-unicode.tar')]
+           enumerate_udhr(intarfile='data/udhr/udhr-unicode.tar')]
   return langs
 
 def num_languages():
   """ Returns the number of languages available from original data source. """
   return len(languages())
+
+''''# USAGE:
+print languages()
+print num_languages()
+for lang, sent in source_sents():
+  print lang, sent
+'''
