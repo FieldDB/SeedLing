@@ -2,7 +2,7 @@
 
 # Access modules from parent dir, see http://goo.gl/dZ5HVk
 import os, codecs, tempfile
-from utils import read_tarfile
+from utils import read_tarfile, currentdirectory
 
 def enumerate_udhr(intarfile):
   """
@@ -33,7 +33,7 @@ def enumerate_udhr(intarfile):
       languages[lang].append(lang)
   return languages
 
-def documents(intarfile='data/udhr/udhr-unicode.tar', \
+def documents(intarfile=currentdirectory()+'/data/udhr/udhr-unicode.tar', \
               bysentence=False):
   """ Yields UDHR by documents. """
   for infile in read_tarfile(intarfile):
@@ -47,16 +47,19 @@ def documents(intarfile='data/udhr/udhr-unicode.tar', \
       else:
         yield language, fin.read()
         
-def sents(intarfile='data/udhr/udhr-unicode.tar', bysentence=True):
+def sents(intarfile=currentdirectory()+'/data/udhr/udhr-unicode.tar', \
+          bysentence=True):
   return documents(intarfile, bysentence)
 
-def source_sents(intarfile='data/udhr/udhr-unicode.tar', bysentence=True):
+def source_sents(intarfile=currentdirectory()+'/data/udhr/udhr-unicode.tar', \
+                 bysentence=True):
   return sents(intarfile, bysentence)
 
 def languages():
   """ Returns a list of available languages from original data source. """
   langs = [i.partition('-')[2].partition('.')[0] for i in \
-           enumerate_udhr(intarfile='data/udhr/udhr-unicode.tar')]
+           enumerate_udhr(intarfile=currentdirectory()+ \
+                          '/data/udhr/udhr-unicode.tar')]
   return langs
 
 def num_languages():

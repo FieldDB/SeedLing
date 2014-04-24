@@ -2,9 +2,10 @@
 
 # Access modules from parent dir, see http://goo.gl/dZ5HVk
 import codecs, tarfile
-from utils import read_tarfile
+from utils import read_tarfile, currentdirectory
 
-def phrases(intarfile='data/omniglot/omniglotphrases.tar', onlysource=False):
+def phrases(intarfile=currentdirectory()+'/data/omniglot/omniglotphrases.tar', \
+            onlysource=False):
   """ Yield source and tranlsation sentences from the clean Omniglot tarball. """
   for infile in read_tarfile(intarfile):
     language = infile.split('/')[-1].split('-')[1].split('.')[0].split('_')[0]
@@ -16,14 +17,17 @@ def phrases(intarfile='data/omniglot/omniglotphrases.tar', onlysource=False):
         else:
           yield language, sentence, translation
 
-def source_sents(intarfile='data/omniglot/omniglotphrases.tar', onlysource=True):
+def source_sents(intarfile=currentdirectory()+\
+                 '/data/omniglot/omniglotphrases.tar', onlysource=True):
   """ Yield clean sentences from the clean Omniglot tarball. """
   return phrases(intarfile, onlysource)
 
 def languages():
   """ Returns the number of languages available from original data source. """
   return [str(i.name).partition('-')[2].partition('.')[0] 
-          for i in tarfile.open('data/omniglot/omniglotphrases.tar') if i.name != ""]
+          for i in tarfile.open(currentdirectory()+ \
+                                '/data/omniglot/omniglotphrases.tar') \
+          if i.name != ""]
 
 def num_languages():
   """ Returns the number of languages available from original data source. """

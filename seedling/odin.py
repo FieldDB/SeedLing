@@ -4,7 +4,7 @@
 import tarfile, codecs, os, re, string, shutil
 from collections import defaultdict
 import cPickle as pickle
-from utils import remove_tags, make_tarfile, read_tarfile
+from utils import remove_tags, make_tarfile, read_tarfile, currentdirectory
 
 try:
   from bs4 import BeautifulSoup as bs
@@ -13,7 +13,7 @@ except:
 #bs.find_all = getattr(bs, 'find_all',False) or getattr(bs, 'findAll')
 
 
-def get_odin_igts(ODINFILE='data/odin/odin-full.tar'):
+def get_odin_igts(ODINFILE=currentdirectory()+'/data/odin/odin-full.tar'):
   """
   Extracts the examples from the ODIN igts and returns a defaultdict(list),
   where the keys are the lang iso codes and values are the examples.
@@ -50,7 +50,7 @@ def get_odin_igts(ODINFILE='data/odin/odin-full.tar'):
             raise; print eg
   return docs
 
-def load_odin_pickle(ODIN_PICKLE='data/odin/odin-docs.pk'):
+def load_odin_pickle(ODIN_PICKLE=currentdirectory()+'/data/odin/odin-docs.pk'):
   """
   Loads odin-docs.pk and yield one IGT at a time.
   
@@ -77,7 +77,7 @@ def igts():
   for lang, examples in load_odin_pickle():
     yield lang, examples
     
-def source_sents(intarfile='data/odin/odin-all.tar'):
+def source_sents(intarfile=currentdirectory()+'/data/odin/odin-all.tar'):
   """ Yield sentences from ODIN tarball. """
   for infile in sorted(read_tarfile(intarfile)):
     language = infile.split('/')[-1].split('-')[1].split('.')[0].split('_')[0]
@@ -89,7 +89,7 @@ def source_sents(intarfile='data/odin/odin-all.tar'):
 def languages():
   """Returns the number of languages available from original data source."""
   return [str(i.name).partition('.')[0] \
-          for i in tarfile.open('data/odin/odin-full.tar')]
+          for i in tarfile.open(currentdirectory()+'/data/odin/odin-full.tar')]
 
 def num_languages():
   """ Returns the number of languages available from original data source. """

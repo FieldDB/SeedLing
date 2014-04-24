@@ -2,14 +2,14 @@
 
 import codecs, re
 from collections import defaultdict
-from utils import sync_and_read
+from utils import sync_and_read, currentdirectory
 
 # Link to the ISO 639-3 file.
 ISO6393_URL = "http://www-01.sil.org/iso639-3/iso-639-3.tab"
-ISO6393_TXT = "data/sil/iso6393.txt"
+ISO6393_TXT = currentdirectory()+"/data/sil/iso6393.txt"
 # Link to the ISO 639-3 names file.
 ISO6393_NAME_URL = "http://www-01.sil.org/iso639-3/iso-639-3_Name_Index.tab"
-ISO6393_NAME_TXT = "data/sil/iso6393-name.txt" # a local copy.
+ISO6393_NAME_TXT = currentdirectory()+"/data/sil/iso6393-name.txt" # a local copy.
 # Scope of language, http://www-01.sil.org/iso639-3/scope.asp
 # Type of language, see http://www-01.sil.org/iso639-3/types.asp
 # See http://www-01.sil.org/iso639-3/iso-639-3.tab
@@ -18,7 +18,7 @@ scopetype = {"I":"Indvidual", "M":"Macrolanguage",
                "H":"Historic", "C":"Constructed"}
 # Link to ISO 639-3 Macrolanguages file.
 MACROLANGS_URL = "http://www-01.sil.org/iso639-3/iso-639-3-macrolanguages.tab"
-MACROLANGS_TXT = "data/sil/marcolangs.txt" # a local copy.
+MACROLANGS_TXT = currentdirectory()+"/data/sil/marcolangs.txt" # a local copy.
 
 class MiniSIL:
   def __init__(self):

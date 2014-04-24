@@ -20,6 +20,11 @@ def parentdirectory():
   return os.path.abspath(os.path.join(os.path.dirname(__file__), 
                                       os.path.pardir))
 
+def currentdirectory():
+  """ Returns current directory. """
+  import os
+  return os.path.dirname(os.path.realpath(__file__))
+
 def make_tarfile(output_filename, source_dir):
   """ Compress all files into a single tarfile. """
   import os, tarfile
