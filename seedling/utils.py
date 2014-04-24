@@ -19,4 +19,27 @@ def parentdirectory():
   import os
   return os.path.abspath(os.path.join(os.path.dirname(__file__), 
                                       os.path.pardir))
+
+def make_tarfile(output_filename, source_dir):
+  """ Compress all files into a single tarfile. """
+  import os, tarfile
+  with tarfile.open(output_filename, "w") as tar:
+    tar.add(source_dir, arcname=os.path.basename(source_dir))
+
+def read_tarfile(intarfile):
+  """ Extracts a tarfile to a temp directory, then yield one file at a time. """
+  import tempfile, tarfile, os
+  TEMP_DIR = tempfile.mkdtemp()
+  with tarfile.open(intarfile) as tf:
+    for member in tf.getmembers():
+      tf.extract(member, TEMP_DIR)
   
+  for infile in os.listdir(TEMP_DIR):
+    yield TEMP_DIR+'/'+infile
+
+def remove_tags(text):
+  """ Removes <tags> in angled brackets from text. """
+  import re
+  tags = {i:" " for i in re.findall("(<[^>\n]*>)",text.strip())}
+  no_tag_text = reduce(lambda x, kv:x.replace(*kv), tags.iteritems(), text)
+  return " ".join(no_tag_text.split())

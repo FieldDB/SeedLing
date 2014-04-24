@@ -1,4 +1,8 @@
 eclipse.preferences.version=1
 encoding//seedling/miniethnologue.py=utf-8
 encoding//seedling/miniwals.py=utf-8
+encoding//seedling/odin.py=utf-8
+encoding//seedling/omniglot.py=utf-8
+encoding//seedling/udhr.py=utf-8
 encoding//seedling/utils.py=utf-8
+encoding//seedling/wikipedia.py=utf-8
