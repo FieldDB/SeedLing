@@ -5,7 +5,7 @@ from utils import sync_and_read
 
 WALS_URL = "http://wals.info/languoid.tab?sEcho=1&iSortingCols=1"+\
             "&iSortCol_0=0&sSortDir_0=asc"
-WALS_TXT = "data/wals.txt"
+WALS_TXT = "data/wals/wals.txt"
             
 wals_tsv = sync_and_read(WALS_URL, WALS_TXT)  
 headerline, _ , data = wals_tsv.partition('\n')

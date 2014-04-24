@@ -65,7 +65,7 @@ class MiniSIL:
       self.MACROLANGS[macro].append(code)
   
 
-''' # USAGE:
+'''# USAGE:
 minisil = MiniSIL()
 
 print minisil.ISO6393['eng']
