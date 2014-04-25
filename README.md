@@ -33,7 +33,7 @@ To cite the SeedLing corpus:
 in `bibtex`:
 
 ```
-@InProceedings{PustejovskyYocum:2013:IWCS2013:ISA-9,
+@InProceedings{seedling2014,
   author    = {},
   title     = {SeedLing: Building and using a seed corpus for the Human Language Project},
   booktitle = {Proceedings of The use of Computational methods in the study of Endangered Languages (ComputEL) Workshop},
