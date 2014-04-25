@@ -21,16 +21,16 @@ MACROLANGS_URL = "http://www-01.sil.org/iso639-3/iso-639-3-macrolanguages.tab"
 MACROLANGS_TXT = currentdirectory()+"/data/sil/marcolangs.txt" # a local copy.
 
 class MiniSIL:
-  def __init__(self):
+  def __init__(self, toupdate=True):
     
     self.ISO6393, self.MARCOLANGS = {} , defaultdict(list)
-    self.update()
+    self.update(toupdate)
   
-  def update(self):
+  def update(self, toupdate=True):
     """ Updates the ISO 639-3, if internet connection is available. """
     # Saving contents from iso-639-3.tab into ISO6393 object.
     iso6393_tsv = sync_and_read(ISO6393_URL, 
-                                ISO6393_TXT)
+                                ISO6393_TXT, toupdate=toupdate)
     iso6393_data = iso6393_tsv.partition('\n')[2] # Removes headerlines.
     headerline = "iso6392t iso6392b iso6391 scope type name comment"
 
@@ -63,7 +63,22 @@ class MiniSIL:
       self.ISO6393.setdefault(code, {})["macro"] =  macro
       self.ISO6393.setdefault(code, {})["status"] =  status
       self.MACROLANGS[macro].append(code)
-  
+
+def check_lang(langcode, option):
+  """ Queries SIL website for language status given the language code. """
+  import urllib2, re
+  from bs4 import BeautifulSoup as bs
+  from utils import remove_tags
+  url = "http://www-01.sil.org/iso639-3/documentation.asp?id="+langcode
+  page = urllib2.urlopen(url).read().decode('utf8')
+  if "The supplied value for the code parameter is not "+\
+  "a valid three-letter identifier." in page:
+    return None
+  status = unicode([i for i in bs(page).\
+            find_all('tr') if option+":" in i.text][0])
+  status = re.findall(r'<td>.*?<\/td>', status)[0]
+  return remove_tags(status).lower()
+
 
 '''# USAGE:
 minisil = MiniSIL()

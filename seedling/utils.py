@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
-def sync_and_read(url, filename):
+def sync_and_read(url, filename, toupdate=True):
   """ 
   Downloads and update a file from the given url, 
   if internet is available. 
   """
+  if toupdate==False:
+    return open(filename, 'r').read()
   import urllib2
   try: # Getting an updated version of the file online.
     infile = urllib2.urlopen(url).read().decode('utf8')

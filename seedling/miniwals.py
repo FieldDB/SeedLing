@@ -5,12 +5,12 @@ from utils import sync_and_read, currentdirectory
 
 
 class MiniWALS(dict):
-  def __init__(self):
+  def __init__(self, toupdate=True):
     WALS_URL = "http://wals.info/languoid.tab?sEcho=1&iSortingCols=1"+\
             "&iSortCol_0=0&sSortDir_0=asc"
     WALS_TXT = currentdirectory()+"/data/wals/wals.txt"
                 
-    wals_tsv = sync_and_read(WALS_URL, WALS_TXT)
+    wals_tsv = sync_and_read(WALS_URL, WALS_TXT, toupdate=toupdate)
     headerline, _ , data = wals_tsv.partition('\n')
     
     for line in data.split('\n'):

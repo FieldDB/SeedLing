@@ -14,6 +14,11 @@ sil = miniethnologue.MiniSIL()
 print sil.ISO6393['eng']
 for i in sil.MACROLANGS:
   print i, sil.MACROLANGS[i], len(sil.MACROLANGS[i]), sil.ISO6393[i]
+  
+# Checking language code status from SIL.
+check_lang_status = miniethnologue.check_lang_status
+print check_lang_status('eng')
+print check_lang_status('lnc')
 
 # Accessing UDHR sentences.
 print udhr.languages()

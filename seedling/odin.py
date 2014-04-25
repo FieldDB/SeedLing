@@ -81,6 +81,8 @@ def source_sents(intarfile=currentdirectory()+'/data/odin/odin-all.tar'):
   """ Yield sentences from ODIN tarball. """
   for infile in sorted(read_tarfile(intarfile)):
     language = infile.split('/')[-1].split('-')[1].split('.')[0].split('_')[0]
+    conversions = {"JPN":"jpn", "MAC":"mkd", "qgk":"grc"}
+    language = conversions[language] if language in conversions else language
     with codecs.open(infile,'r','utf8') as fin:
       for line in fin.readlines():
         sentence = line.strip().split('\t')[0]
@@ -88,8 +90,14 @@ def source_sents(intarfile=currentdirectory()+'/data/odin/odin-all.tar'):
         
 def languages():
   """Returns the number of languages available from original data source."""
-  return [str(i.name).partition('.')[0] \
-          for i in tarfile.open(currentdirectory()+'/data/odin/odin-full.tar')]
+  languages = []
+  conversions = {"JPN":"jpn", "MAC":"mkd", "qgk":"grc"}
+  for i in tarfile.open(currentdirectory()+'/data/odin/odin-full.tar'):
+    lang = str(i.name).partition('.')[0]
+    if len(lang) != 3: continue
+    lang = conversions[lang] if lang in conversions else lang
+    languages.append(lang)
+  return languages
 
 def num_languages():
   """ Returns the number of languages available from original data source. """
