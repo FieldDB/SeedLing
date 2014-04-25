@@ -13,20 +13,33 @@ The SeedLing API includes scripts to access data/information from:
 * **ISO 639-3** : SIL ISO standards for language code (`miniethnologue.py`)
 * **WALS**: Language information from World Atlas of Language Structures (`miniwals.py`)
 
+
 To use the SeedLing corpus through the python API, please follow the instructions on the **Usage** section.
+
 To download the plaintext version of the SeedLing corpus (excluding wikipedia data), click here.
 
 To download the wikipedia data, please follow the **Getting Wikipedia** section.
 
+
 To cite the SeedLing corpus:
 
-<authors> . 2014. SeedLing: Building and using a seed corpus for the Human Language Project. In Proceedings of
-The use of Computational methods in the study of Endangered Languages (ComputEL) Workshop. Baltimore, USA.
+`<authors>` . 2014. SeedLing: Building and using a seed corpus for the Human Language Project. In Proceedings of
+*The use of Computational methods in the study of Endangered Languages (ComputEL) Workshop*. Baltimore, USA.
 
 in `bibtex`:
 
 ```
-
+@InProceedings{PustejovskyYocum:2013:IWCS2013:ISA-9,
+  author    = {},
+  title     = {SeedLing: Building and using a seed corpus for the Human Language Project},
+  booktitle = {Proceedings of The use of Computational methods in the study of Endangered Languages (ComputEL) Workshop},
+  month     = {JUne},
+  year      = {2014},
+  address   = {Baltimore, USA},
+  publisher = {Association for Computational Linguistics},
+  pages     = {},
+  url       = {}
+}
 ```
 
 
