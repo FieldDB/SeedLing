@@ -68,10 +68,9 @@ Getting Wikipedia
 
 Due to the massive size of the Wikipedia data, we are unable to host the data online. However, we encourage SeedLing users to take part in building the Wikipedia data from the SeedLing corpus. A fruitful experience, you will find.
 
+Please **ENSURE** that you have suffice space on your harddisk (~50-70GB) and also this process of download and cleaning might take up to a week for **ALL** languages available in Wikipedia. 
 
-**For the lazy**: please **ENSURE** that you have suffice space on your harddisk (~50-70GB) and also this process of download and cleaning might take up to a week for **ALL** languages available in Wikipedia. 
-
-To get the Wikipedia data, run the script `plant_wiki.py` and it would produce the desired cleaned plaintext Wikipedia data as presented in the SeedLing publication:
+**For the lazy**: run the script `plant_wiki.py` and it would produce the desired cleaned plaintext Wikipedia data as presented in the SeedLing publication:
 
 ```
 $ python plant_wiki.py &
@@ -82,7 +81,7 @@ For more detailed, step-by-step instructions:
 
  - First, you have to download the Wikipedia dumps. We have used the `wp-download` (https://github.com/babilen/wp-download) tool when building the SeedLing corpus. 
  - Then, you have to extract the text from the Wikipedia dumps. We used the `Wikipedia Extractor` (http://medialab.di.unipi.it/wiki/Wikipedia_Extractor) to convert wikipedia dumps into textfiles.
-- Finally, you can use the cleaning function in `wikipedia.py` to clean the Wikipedia data and assigns the ISO 639-3 language code to textfiles. The cleaning function can be called as such:
+ - Finally, you can use the cleaning function in `wikipedia.py` to clean the Wikipedia data and assigns the ISO 639-3 language code to textfiles. The cleaning function can be called as such:
 
 ```
 
