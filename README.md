@@ -118,4 +118,11 @@ in `bibtex`:
 References
 ====
 
+ - Steven Abney and Steven Bird. 2010. The Human Language Project: Building a universal corpus of the world’s languages. In Proceedings of the 48th Annual Meeting of the Association for Computational Linguistics, pages 88–97. Association for Computational Linguistics.
+
+ - Sime Ager. Omniglot - writing systems and languages of the world. Retrieved from www.omniglot.com.
+
+ - William D Lewis and Fei Xia. 2010. Developing ODIN: A multilingual repository of annotated language data for hundreds of the world’s languages. Literary and Linguistic Computing, 25(3):303–319.
+
+ - UN General Assembly, Universal Declaration of Human Rights, 10 December 1948, 217 A (III), available at: http://www.refworld.org/docid/3ae6b3712c.html [accessed 26 April 2014]
 
