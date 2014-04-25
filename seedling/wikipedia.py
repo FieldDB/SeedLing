@@ -147,13 +147,40 @@ for i,j in source_sents():
   print i,j
 '''
 
-'''            
-def langs():
-  from miniethnologue import WIKI2ISO, ISO2LANG
-  from crawlandclean import ethnologue
-  wikilangs = [WIKI2ISO[i] for i in WIKI2ISO if WIKI2ISO[i] and WIKI2ISO[i] in ISO2LANG]
-  
-  language_families = ethnologue.language_families()
-  
-  return set(language_families.keys()).difference(wikilangs)
-'''
+def languages():
+  langs_in_wiki = ['lat', 'gag', 'cor', 'cre', 'lit', 'ven', 'mri', 'nau', 
+                   'bos', 'arz', 'tha', 'yor', 'tet', 'yid', 'ssw', 'wln', 
+                   'diq', 'krc', 'nrm', 'ndo', 'urd', 'pnt', 'isl', 'ori', 
+                   'pan', 'kaz', 'kab', 'fra', 'bis', 'sin', 'msa', 'ces', 
+                   'cbk', 'mah', 'nor', 'mlt', 'smo', 'new', 'kik', 'frp', 
+                   'kor', 'ell', 'spa', 'vol', 'ibo', 'mya', 'ita', 'tsn', 
+                   'sah', 'mzn', 'tuk', 'hun', 'dzo', 'tel', 'sun', 'tah', 
+                   'lug', 'ile', 'est', 'bel', 'ido', 'vls', 'nso', 'lao', 
+                   'orm', 'vec', 'mlg', 'ltg', 'vie', 'iii', 'cos', 'mus',
+                    'oci', 'heb', 'ton', 'deu', 'fur', 'zha', 'chu', 'tat', 
+                    'min', 'mkd', 'roh', 'amh', 'fry', 'nld', 'bug', 'gle', 
+                    'yue', 'pus', 'ace', 'bod', 'lmo', 'srp', 'chy', 'lbe', 
+                    'tyv', 'nep', 'pcd', 'lzh', 'jav', 'run', 'aze', 'grn', 
+                    'ben', 'mhr', 'jbo', 'kau', 'sgs', 'lez', 'ltz', 'hye', 
+                    'kur', 'slv', 'kas', 'tam', 'nov', 'dsb', 'kon', 'lav', 
+                    'koi', 'bul', 'nya', 'bxr', 'ina', 'kal', 'wol', 'wuu', 
+                    'sco', 'slk', 'nds', 'sag', 'pol', 'ava', 'nan', 'gsw', 
+                    'fin', 'dan', 'xho', 'pfl', 'mar', 'ukr', 'snd', 'nap', 
+                    'oss', 'vro', 'her', 'cdo', 'uzb', 'lin', 'ewe', 'nno', 
+                    'tgk', 'hat', 'xal', 'scn', 'kua', 'hif', 'hmo', 'kom', 
+                    'glv', 'mdf', 'uig', 'por', 'ang', 'lim', 'kbd', 'som', 
+                    'cho', 'che', 'sot', 'fas', 'cym', 'mon', 'tpi', 'myv', 
+                    'pih', 'xmf', 'srn', 'rus', 'pdc', 'rue', 'hak', 'eng', 
+                    'ext', 'hau', 'swa', 'got', 'bam', 'tum', 'kin', 'nav', 
+                    'fao', 'hrv', 'asm', 'aar', 'crh', 'fij', 'bpy', 'bar', 
+                    'ara', 'udm', 'bak', 'zul', 'pap', 'csb', 'aka', 'haw', 
+                    'sme', 'zea', 'gla', 'stq', 'tgl', 'mal', 'swe', 'tir', 
+                    'afr', 'ckb', 'ksh', 'vep', 'kir', 'rup', 'ful', 'pnb', 
+                    'jpn', 'bjn', 'zho', 'abk', 'frr', 'kaa', 'eus', 'ilo', 
+                    'bre', 'que', 'pms', 'cha', 'rmy', 'aym', 'szl', 'pam', 
+                    'arg', 'hbs', 'pag', 'iku', 'kat', 'cat', 'ron', 'khm', 
+                    'sqi', 'san', 'ipk', 'glk', 'jv', 'tur', 'lad', 'ceb', 
+                    'mwl', 'glg', 'twi', 'war', 'mrj', 'ast', 'epo', 'pli', 
+                    'div', 'kan', 'sna', 'tso', 'chr', 'hsb', 'srd', 'lij', 
+                    'bcl', 'chv', 'hin', 'arc', 'ind', 'guj', 'gan']
+  return langs_in_wiki
