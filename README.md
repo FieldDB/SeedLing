@@ -20,7 +20,8 @@ To download the wikipedia data, please follow the **Getting Wikipedia** section.
 
 To cite the SeedLing corpus:
 
-
+<authors> . 2014. SeedLing: Building and using a seed corpus for the Human Language Project. In Proceedings of
+The use of Computational methods in the study of Endangered Languages (ComputEL) Workshop. Baltimore, USA.
 
 in `bibtex`:
 
