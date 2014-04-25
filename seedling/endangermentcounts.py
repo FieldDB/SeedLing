@@ -18,7 +18,7 @@ def retrieve_endangerment_level(livinglanguages):
 livinglanguages_in_seedling = set()
 
 for resource in ['udhr', 'omniglot', 'odin', 'wikipedia']:
-  livinglanguages = count_living_languages(resource, True)
+  livinglanguages = count_living_languages(resource)
   livinglanguages_in_seedling.update(livinglanguages)
   endangerment_languages = retrieve_endangerment_level(livinglanguages)
   print resource

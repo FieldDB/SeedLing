@@ -2,6 +2,7 @@
 
 import cPickle as pickle
 import codecs
+from collections import defaultdict
 
 import udhr, omniglot, odin, wikipedia
 import miniwals, miniethnologue
@@ -36,17 +37,23 @@ def count_living_languages(resource, shutup=False):
       not_living[i] = langtype
   '''
   
+  languagefamilies = defaultdict(list)
+  for i in livinglanguages:
+    i = "nor" if i in ["nob","nno"] else i
+    languagefamilies[pseudo_ethnologue[i][0][0]].append(i)
+  
   if not shutup:
     print resource
     print "Original #Languages :", len(languages)
     print "#Languages in ISO:", num_in_ISO
     print "#LivingLanguages:", len(livinglanguages)
+    print "#Families:", len(languagefamilies)
     ##print "Languages not in ISO:", not_in_ISO
     ##print not_living
     print
   return livinglanguages
 
-''' # USAGE:
+'''# USAGE:
 livinglanguages_in_seedling = set()
 for resource in ['udhr', 'omniglot', 'odin', 'wikipedia']:
   livinglanguages_in_seedling.update(count_living_languages(resource))
