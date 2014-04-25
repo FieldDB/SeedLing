@@ -1,7 +1,7 @@
 SeedLing
 ========
 
-Building and using a seed corpus for the Human Language Project (Steven and Abney, 2010).
+Building and using a seed corpus for the *Human Language Project* (Steven and Abney, 2010).
 
 The SeedLing corpus on this repository includes the data from:
 *  **ODIN**: Online Database of Interlinear Text 
@@ -18,10 +18,65 @@ To download the plaintext version of the SeedLing corpus (excluding wikipedia da
 
 To download the wikipedia data, please follow the **Getting Wikipedia** section.
 
+To cite the SeedLing corpus:
+
+
+
+in `bibtex`:
+
+```
+
+```
+
+
 ***
 Usage
 =====
 
-The following code can also be found in `demo.py`.
+To access the SeedLing from various data sources:
+
+```
+from seedling import udhr, omniglot, odin
+
+# Accessing ODIN IGTs:
+>>> for lang, igts in odin.igts():
+>>>   for igt in igts:
+>>>     print lang, igt
+
+# Accesing Omniglot phrases
+>>> for lang, sent, trans in omniglot.phrases():
+>>>   print lang, sent, trans
+
+# Accessing UDHR sentences.
+>>> for lang, sent in udhr.sents():
+>>>   print lang, sent
+```
+
+To access the SIL and WALS information:
+
+```
+from seedling import miniwals, miniethnologue
+
+# Accessing SIL ISO codes.
+>>> sil = miniethnologue.MiniSIL()
+>>> print sil.ISO6393['eng']
+{'iso6391': u'en', 'name': u'English', 'iso6392t': u'eng', 'invert': u'English', 'ismacro': False, 'scope': 'Indvidual', 'type': 'Living', 'iso6392b': u'eng'}
+
+# Accessing WALS information
+>>> wals = miniwals.MiniWALS()
+>>> print wals['eng']
+{u'glottocode': u'stan1293', u'name': u'English', u'family': u'Indo-European', u'longitude': u'0.0', u'sample 200': u'True', u'latitude': u'52.0', u'genus': u'Germanic', u'macroarea': u'Eurasia', u'sample 100': u'True'}
+```
+
+Detailed usage of the API can also be found in `demo.py`.
+
+
+***
+Getting Wikipedia
+====
+
+***
+References
+====
 
 
