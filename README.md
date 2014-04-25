@@ -21,6 +21,10 @@ To download the plaintext version of the SeedLing corpus (excluding wikipedia da
 To download the wikipedia data, please follow the **Getting Wikipedia** section.
 
 
+***
+Cite
+=====
+
 To cite the SeedLing corpus:
 
 `<authors>` . 2014. SeedLing: Building and using a seed corpus for the Human Language Project. In Proceedings of
