@@ -16,7 +16,7 @@ The SeedLing API includes scripts to access data/information from:
 **FAQs**:
 
 - To use the SeedLing corpus through the python API, please follow the instructions on the **Usage** section.
-- To download the plaintext version of the SeedLing corpus (excluding wikipedia data), click here.
+- To download the plaintext version of the SeedLing corpus (excluding wikipedia data), click [https://db.tt/N7hV3gwW here].
 - To download the wikipedia data, please follow the **Getting Wikipedia** section.
 
 
