@@ -63,6 +63,15 @@ class MiniSIL:
       self.ISO6393.setdefault(code, {})["macro"] =  macro
       self.ISO6393.setdefault(code, {})["status"] =  status
       self.MACROLANGS[macro].append(code)
+      
+  def name2code(self, language_name):
+    for i in self.ISO6393:
+      try:
+        if self.ISO6393[i]['name'].lower() == language_name.lower():
+          return i
+      except KeyError:
+        pass
+        ##print i, self.ISO6393[i]
 
 def check_lang(langcode, option):
   """ Queries SIL website for language status given the language code. """

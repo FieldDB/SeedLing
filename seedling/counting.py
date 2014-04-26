@@ -17,14 +17,13 @@ def count_living_languages(resource, shutup=False):
   languages_iso6393 = [i for i in languages if i in sil.ISO6393] 
   num_in_ISO = len(languages_iso6393)
   # Check why are languages not in ISO.
-  ##not_in_ISO = {i:check_lang(i, option="Status") for i in \
-  ##              set(languages).difference(languages_iso6393)}
+  not_in_ISO = {i:check_lang(i, option="Status") for i in \
+                set(languages).difference(languages_iso6393)}
   
   livinglanguages = [i for i in languages_iso6393 if i in \
                      pseudo_ethnologue.keys()+['nno', 'nob']]
   
   # Check why are languages not living.
-  '''
   not_living = {}
   for i in set(languages_iso6393).difference(livinglanguages):
     if i in sil.MACROLANGS:
@@ -35,7 +34,7 @@ def count_living_languages(resource, shutup=False):
       check_lang(i, option="Status") == "retired":
         langtype = "retired"  
       not_living[i] = langtype
-  '''
+  
   
   languagefamilies = defaultdict(list)
   for i in livinglanguages:
@@ -48,12 +47,13 @@ def count_living_languages(resource, shutup=False):
     print "#Languages in ISO:", num_in_ISO
     print "#LivingLanguages:", len(livinglanguages)
     print "#Families:", len(languagefamilies)
-    ##print "Languages not in ISO:", not_in_ISO
-    ##print not_living
+    print "Languages not in ISO because:", not_in_ISO
+    print "Languages not living because:", not_living
     print
   return livinglanguages
 
-'''# USAGE:
+'''
+# USAGE:
 livinglanguages_in_seedling = set()
 for resource in ['udhr', 'omniglot', 'odin', 'wikipedia']:
   livinglanguages_in_seedling.update(count_living_languages(resource))

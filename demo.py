@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from seedling import miniwals, miniethnologue
 from seedling import udhr, omniglot, odin
 
@@ -12,13 +14,14 @@ print sorted(wals.RELATED_LANGS['eng'])
 # Accessing SIL ISO codes.
 sil = miniethnologue.MiniSIL()
 print sil.ISO6393['eng']
+print sil.name2code('German')
 for i in sil.MACROLANGS:
   print i, sil.MACROLANGS[i], len(sil.MACROLANGS[i]), sil.ISO6393[i]
-  
+
 # Checking language code status from SIL.
-check_lang_status = miniethnologue.check_lang_status
-print check_lang_status('eng')
-print check_lang_status('lnc')
+check_lang_status = miniethnologue.check_lang()
+print check_lang_status('eng',"Status")
+print check_lang_status('lnc',"Status")
 
 # Accessing UDHR sentences.
 print udhr.languages()
