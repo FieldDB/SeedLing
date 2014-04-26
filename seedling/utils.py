@@ -11,7 +11,7 @@ def sync_and_read(url, filename, toupdate=True):
   try: # Getting an updated version of the file online.
     infile = urllib2.urlopen(url).read().decode('utf8')
     with open(filename,'w') as fout:
-      fout.write(infile)
+      fout.write(infile.encode('utf-8'))
   except urllib2.URLError:
     infile = open(filename, 'r').read()
   return infile
