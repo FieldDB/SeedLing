@@ -12,6 +12,11 @@ sil = miniethnologue.MiniSIL(toupdate=False)
 pkfile = 'data/ethnologue/livinglanguages_with_info.pk'
 pseudo_ethnologue = pickle.load(codecs.open(pkfile, 'rb'))
 
+def count_iso_languages(resource):
+  languages = globals()[resource].languages()
+  languages_iso6393 = [i for i in languages if i in sil.ISO6393]
+  return languages_iso6393
+
 def count_living_languages(resource, shutup=False):
   languages = globals()[resource].languages()
   languages_iso6393 = [i for i in languages if i in sil.ISO6393] 
@@ -52,10 +57,39 @@ def count_living_languages(resource, shutup=False):
     print
   return livinglanguages
 
-'''
+def count_freqs(d):
+  '''Counts freqs in a dictionary.'''
+  countdic = dict()
+  for key in d.keys():
+    try:
+      countdic[d[key]] += 1
+    except KeyError:
+      countdic[d[key]] = 1
+  return countdic
+
+def count_source_per_language(l):
+    d = defaultdict(int)
+    for lang in l:
+        d[lang] += 1
+    print(d)
+    countdic = count_freqs(d)
+    for key in countdic.keys():
+      print('# of languages that appear in exactly ' + str(key) 
+                            + ' datasource(s): ' + str(countdic[key]))
+
 # USAGE:
 livinglanguages_in_seedling = set()
-for resource in ['udhr', 'omniglot', 'odin', 'wikipedia']:
+source_per_language = []
+source_per_living_language = []
+
+for resource in ['udhr', 'omniglot', 'odin', 'wikipedia']: # 'udhr', 'omniglot', 'odin', 'wikipedia'
   livinglanguages_in_seedling.update(count_living_languages(resource))
+  source_per_language = source_per_language \
+                                 + list(set(count_iso_languages(resource)))
+  source_per_living_language = source_per_living_language \
+                                 + list(set(count_living_languages(resource)))
 print "Combined #Languages:", len(livinglanguages_in_seedling)
-'''
+print("\n All languages in ISO:")
+count_source_per_language(source_per_language)
+print("\n Living Languages:")
+count_source_per_language(source_per_living_language)
