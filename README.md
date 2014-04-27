@@ -95,17 +95,17 @@ Cite
 
 To cite the SeedLing corpus:
 
-`<authors>` . 2014. SeedLing: Building and using a seed corpus for the Human Language Project. In Proceedings of
+Guy Emerson, Liling Tan, Susanne Fertmann, Alexis Palmer and Michaela Regneri . 2014. SeedLing: Building and using a seed corpus for the Human Language Project. In Proceedings of
 *The use of Computational methods in the study of Endangered Languages (ComputEL) Workshop*. Baltimore, USA.
 
 in `bibtex`:
 
 ```
 @InProceedings{seedling2014,
-  author    = {},
+  author    = {Guy Emerson, Liling Tan, Susanne Fertmann, Alexis Palmer and Michaela Regneri},
   title     = {SeedLing: Building and using a seed corpus for the Human Language Project},
   booktitle = {Proceedings of The use of Computational methods in the study of Endangered Languages (ComputEL) Workshop},
-  month     = {JUne},
+  month     = {June},
   year      = {2014},
   address   = {Baltimore, USA},
   publisher = {Association for Computational Linguistics},
