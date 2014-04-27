@@ -68,7 +68,7 @@ Getting Wikipedia
 
 Due to the massive size of the Wikipedia data, we are unable to host the data online. However, we encourage SeedLing users to take part in building the Wikipedia data from the SeedLing corpus. A fruitful experience, you will find.
 
-Please **ENSURE** that you have suffice space on your harddisk (~50-70GB) and also this process of download and cleaning might take up to a week for **ALL** languages available in Wikipedia. 
+Please **ENSURE** that you have sufficient space on your harddisk (~50-70GB) and also this process of download and cleaning might take up to a week for **ALL** languages available in Wikipedia. 
 
 **For the lazy**: run the script `plant_wiki.py` and it would produce the desired cleaned plaintext Wikipedia data as presented in the SeedLing publication:
 
