@@ -2,7 +2,7 @@
 
 import cPickle as pickle
 import codecs
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 import udhr, omniglot, odin, wikipedia
 import miniwals, miniethnologue
@@ -37,6 +37,7 @@ def count_living_languages(resource, shutup=False):
     languages_iso6393.remove(con)
     
   num_in_iso_without_con = len(languages_iso6393)
+  
 
   # Check why are languages not in ISO.
   not_in_ISO = {i:check_lang(i, option="Status") for i in \
@@ -65,15 +66,15 @@ def count_living_languages(resource, shutup=False):
   
   if not shutup:
     print resource
-    print "Original #Languages :", len(languages)
+    print "Original #Languages :", len(set(languages))
     print "#Languages in ISO:", num_in_ISO
     print "#Languages in ISO (w/o constructed)", num_in_iso_without_con
-    print "#LivingLanguages:", len(livinglanguages)
-    print "#Families:", len(languagefamilies)
+    print "#LivingLanguages:", len(set(livinglanguages))
+    print "#Families:", len(set(languagefamilies))
     print "Languages not in ISO because:", not_in_ISO
     print "Languages not living because:", not_living
     print
-  return livinglanguages
+  return languages_iso6393, livinglanguages
 
 def count_freqs(d):
   '''Counts freqs in a dictionary.'''
@@ -95,24 +96,59 @@ def count_source_per_language(l):
       print('# of languages that appear in exactly ' + str(key) 
                             + ' datasource(s): ' + str(countdic[key]))
 
+def count_source_perlanguage2(ll):
+  ll_numsources = Counter()
+  for resource in ['udhr', 'omniglot', 'odin', 'wikipedia']:
+    languages_in_resource = [i for i in globals()[resource].languages() \
+                         if i in sil.ISO6393]
+    
+    # Substitute retired codes with the updated ones.
+    languages_in_resource = [sil.ISO6393[i]['changeto'] if \
+                        sil.ISO6393[i].get('retired') and 
+                        sil.ISO6393[i]['changeto'] != ""\
+                        else i \
+                        for i in languages_in_resource]
+    
+    for lang in set(languages_in_resource):
+      if lang in ll:
+        ll_numsources[lang] +=1
+  
+  numsources_ll = defaultdict(list)
+  for ll, numsources in ll_numsources.iteritems():
+    numsources_ll[numsources].append(ll)
+  
+  ##print numsources_ll
+  
+  for key in numsources_ll.keys():
+    print('# of languages that appear in exactly ' + str(key) 
+          + ' datasource(s): ' + str(len(numsources_ll[key])))
+    
+  
+    
+
 # USAGE:
 livinglanguages_in_seedling = set()
-source_per_language = []
-source_per_living_language = []
+languages_with_iso6393_in_seedling_without_constructed = set()
 
-for resource in ['udhr', 'omniglot', 'odin', 'wikipedia']: # 'udhr', 'omniglot', 'odin', 'wikipedia'
-  livinglanguages_in_seedling.update(count_living_languages(resource))
-  source_per_language = source_per_language \
-                                 + list(set(livinglanguages_in_seedling))
-  source_per_living_language = source_per_living_language \
-                                 + list(set(livinglanguages_in_seedling))
+for resource in ['udhr', 'omniglot', 'odin', 'wikipedia']:
+  languages_in_iso6393_without_constructed, \
+  livivinglanguages_in_ethnologue = count_living_languages(resource)
+  
+  livinglanguages_in_seedling.update(livivinglanguages_in_ethnologue)
+  languages_with_iso6393_in_seedling_without_constructed.update(languages_in_iso6393_without_constructed)
+  
+  #source_per_language = source_per_language \
+  #                               + list(set(livinglanguages_in_seedling))
+  #source_per_living_language = source_per_living_language \
+  #                               + list(set(livinglanguages_in_seedling))
   
   
   
-print "Combined #Languages:", len(livinglanguages_in_seedling)
+print "Combined #Languages:", len(languages_with_iso6393_in_seedling_without_constructed)
 print("\nAll languages in ISO:")
-count_source_per_language(source_per_language)
+count_source_perlanguage2(languages_with_iso6393_in_seedling_without_constructed)
+#count_source_per_language(source_per_language)
 print("\nLiving Languages:")
-count_source_per_language(source_per_living_language)
+count_source_perlanguage2(livinglanguages_in_seedling)
 
 
