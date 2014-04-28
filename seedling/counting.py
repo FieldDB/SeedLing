@@ -19,7 +19,12 @@ def count_iso_languages(resource):
 
 def count_living_languages(resource, shutup=False):
   languages = globals()[resource].languages()
-  languages_iso6393 = [i for i in languages if i in sil.ISO6393] 
+  languages_iso6393 = [i for i in languages if i in sil.ISO6393]
+  
+  language_iso6393 = [sil.ISO6393[i]['changeto'] if \
+                      sil.ISO6393[i].get('retired') else i \
+                      for i in languages_iso6393]
+  
   num_in_ISO = len(languages_iso6393)
   # Check why are languages not in ISO.
   not_in_ISO = {i:check_lang(i, option="Status") for i in \
@@ -85,11 +90,12 @@ source_per_living_language = []
 for resource in ['udhr', 'omniglot', 'odin', 'wikipedia']: # 'udhr', 'omniglot', 'odin', 'wikipedia'
   livinglanguages_in_seedling.update(count_living_languages(resource))
   source_per_language = source_per_language \
-                                 + list(set(count_iso_languages(resource)))
+                                 + list(set(livinglanguages_in_seedling))
   source_per_living_language = source_per_living_language \
-                                 + list(set(count_living_languages(resource)))
+                                 + list(set(livinglanguages_in_seedling))
+                                 
 print "Combined #Languages:", len(livinglanguages_in_seedling)
-print("\n All languages in ISO:")
+print("\nAll languages in ISO:")
 count_source_per_language(source_per_language)
-print("\n Living Languages:")
+print("\nLiving Languages:")
 count_source_per_language(source_per_living_language)

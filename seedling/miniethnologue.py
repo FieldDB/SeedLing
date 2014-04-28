@@ -20,6 +20,10 @@ scopetype = {"I":"Indvidual", "M":"Macrolanguage",
 MACROLANGS_URL = "http://www-01.sil.org/iso639-3/iso-639-3-macrolanguages.tab"
 MACROLANGS_TXT = currentdirectory()+"/data/sil/marcolangs.txt" # a local copy.
 
+# Link to the ISO 639-3 retirement file. 
+RETIRED_URL = "http://www-01.sil.org/iso639-3/iso-639-3_Retirements.tab"
+RETIRED_TXT = currentdirectory()+"/data/sil/retired.txt" # a local copy.
+
 class MiniSIL:
   def __init__(self, toupdate=True):
     
@@ -42,7 +46,7 @@ class MiniSIL:
     
     # Saving contents from iso-639-3_Name_Index.tab into ISO6393 object.
     iso6393name_tsv = sync_and_read(ISO6393_NAME_URL, 
-                                    ISO6393_NAME_TXT)
+                                    ISO6393_NAME_TXT, toupdate=toupdate)
     iso6393name_data = iso6393name_tsv.partition('\n')[2] # Removes headerlines.
 
     for i in iso6393name_data.split('\n'):
@@ -52,8 +56,9 @@ class MiniSIL:
       self.ISO6393[code]["invert"] = invert
       self.ISO6393[code]["ismacro"] = ismacrolang
     
-    # Saving contents from iso-639-3-macrolanguages.tab into MACROLANGS object.
-    marcolang_tsv = sync_and_read(MACROLANGS_URL, MACROLANGS_TXT)
+    # Saving contents from iso-639-3-macrolanguages.tab into *MACROLANGS*.
+    marcolang_tsv = sync_and_read(MACROLANGS_URL, MACROLANGS_TXT, \
+                                  toupdate=toupdate)
     macrolang_data = marcolang_tsv.partition('\n')[2]
     
     self.MACROLANGS = defaultdict(list)
@@ -63,6 +68,24 @@ class MiniSIL:
       self.ISO6393.setdefault(code, {})["macro"] =  macro
       self.ISO6393.setdefault(code, {})["status"] =  status
       self.MACROLANGS[macro].append(code)
+      
+  
+    # Saving contents from iso-639-3_Retirements.tab into *RETIRED*.
+    retired_tsv = sync_and_read(RETIRED_URL, RETIRED_TXT, toupdate=toupdate)
+    retired_data = retired_tsv.partition('\n')[2]
+    
+    self.RETIRED = defaultdict(list)
+    for i in retired_data.split('\n'):
+      "Id  Ref_Name  Ret_Reason  Change_To  Ret_Remedy  Effective"
+      code, refname, reason, changeto, \
+      remedy, effectivedate = i.strip().split('\t')
+      
+      if reason == "S" and "Split into" in remedy:
+        changeto = "_".join(re.findall(r"\[(.*?)\]", remedy)) 
+      
+      self.ISO6393.setdefault(code, {})["retired"] = True
+      self.ISO6393.setdefault(code, {})["changeto"] = changeto
+  
       
   def name2code(self, language_name):
     for i in self.ISO6393:
