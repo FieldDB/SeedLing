@@ -121,7 +121,6 @@ def count_source_per_language(l):
       print('# of languages that appear in exactly ' + str(key) 
                             + ' datasource(s): ' + str(countdic[key]))
 
-
 def count_source_perlanguage2(ll):
   ll_numsources = Counter()
   for resource in ['udhr', 'omniglot', 'odin', 'wikipedia']:
@@ -145,6 +144,8 @@ def count_source_perlanguage2(ll):
 # USAGE:
 livinglanguages_in_seedling = set()
 languages_with_iso6393_in_seedling_without_constructed = set()
+source_per_language = set()
+source_per_living_language = set()
 
 for resource in ['udhr', 'omniglot', 'odin', 'wikipedia']:
   languages_in_iso6393_without_constructed, \
@@ -154,19 +155,19 @@ for resource in ['udhr', 'omniglot', 'odin', 'wikipedia']:
   languages_with_iso6393_in_seedling_without_constructed.update(languages_in_iso6393_without_constructed)
   
   
-  
-  #source_per_language = source_per_language \
-  #                               + list(set(livinglanguages_in_seedling))
-  #source_per_living_language = source_per_living_language \
-  #                               + list(set(livinglanguages_in_seedling))
+  source_per_language = source_per_language \
+                                 + list(set(livinglanguages_in_seedling))
+  source_per_living_language = source_per_living_language \
+                                 + list(set(livivinglanguages_in_ethnologue))
   
   
 
 print "Combined #Languages:", len(languages_with_iso6393_in_seedling_without_constructed)
 print("\nAll languages in ISO:")
-count_source_perlanguage2(languages_with_iso6393_in_seedling_without_constructed)
-#count_source_per_language(source_per_language)
+#count_source_perlanguage2(languages_with_iso6393_in_seedling_without_constructed)
+count_source_per_language(source_per_language)
 print("\nLiving Languages:")
-count_source_perlanguage2(livinglanguages_in_seedling)
+#count_source_perlanguage2(livinglanguages_in_seedling)
+count_source_per_language(source_per_language)
 
 
