@@ -99,7 +99,7 @@ def count_living_languages(resource, shutup=False):
     print "Languages not in ISO because:", not_in_ISO
     print "Languages not living because:", not_living
     print
-  return languages_iso6393, livinglanguages
+  return list(set(languages_iso6393)), list(set(livinglanguages))
 
 def count_freqs(d):
   '''Counts freqs in a dictionary.'''
@@ -161,7 +161,7 @@ for resource in ['udhr', 'omniglot', 'odin', 'wikipedia']:
   #                               + list(set(livinglanguages_in_seedling))
   
   
-  
+
 print "Combined #Languages:", len(languages_with_iso6393_in_seedling_without_constructed)
 print("\nAll languages in ISO:")
 count_source_perlanguage2(languages_with_iso6393_in_seedling_without_constructed)
