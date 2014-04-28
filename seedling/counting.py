@@ -92,7 +92,8 @@ def count_living_languages(resource, shutup=False):
     print "Original #Languages :", len(set(languages))
     print "#Languages in ISO:", num_in_ISO
     print "#Languages in ISO (w/o constructed)", num_in_iso_without_con
-    print "#Tokens for languages in ISO (w/o constructed)", count_num_tokens(resource)
+    if resource != "wikipedia":
+      print "#Tokens for languages in ISO (w/o constructed)", count_num_tokens(resource)
     print "#LivingLanguages:", len(set(livinglanguages))
     print "#Families:", len(set(languagefamilies))
     print "Languages not in ISO because:", not_in_ISO
