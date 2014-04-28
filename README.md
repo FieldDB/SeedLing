@@ -68,7 +68,7 @@ Getting Wikipedia
 
 Due to the massive size of the Wikipedia data, we are unable to host the data online. However, we encourage SeedLing users to take part in building the Wikipedia data from the SeedLing corpus. A fruitful experience, you will find.
 
-Please **ENSURE** that you have suffice space on your harddisk (~50-70GB) and also this process of download and cleaning might take up to a week for **ALL** languages available in Wikipedia. 
+Please **ENSURE** that you have sufficient space on your harddisk (~50-70GB) and also this process of download and cleaning might take up to a week for **ALL** languages available in Wikipedia. 
 
 **For the lazy**: run the script `plant_wiki.py` and it would produce the desired cleaned plaintext Wikipedia data as presented in the SeedLing publication:
 
@@ -95,17 +95,17 @@ Cite
 
 To cite the SeedLing corpus:
 
-`<authors>` . 2014. SeedLing: Building and using a seed corpus for the Human Language Project. In Proceedings of
+Guy Emerson, Liling Tan, Susanne Fertmann, Alexis Palmer and Michaela Regneri . 2014. SeedLing: Building and using a seed corpus for the Human Language Project. In Proceedings of
 *The use of Computational methods in the study of Endangered Languages (ComputEL) Workshop*. Baltimore, USA.
 
 in `bibtex`:
 
 ```
 @InProceedings{seedling2014,
-  author    = {},
+  author    = {Guy Emerson, Liling Tan, Susanne Fertmann, Alexis Palmer and Michaela Regneri},
   title     = {SeedLing: Building and using a seed corpus for the Human Language Project},
   booktitle = {Proceedings of The use of Computational methods in the study of Endangered Languages (ComputEL) Workshop},
-  month     = {JUne},
+  month     = {June},
   year      = {2014},
   address   = {Baltimore, USA},
   publisher = {Association for Computational Linguistics},
