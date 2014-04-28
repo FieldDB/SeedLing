@@ -17,6 +17,29 @@ def count_iso_languages(resource):
   languages_iso6393 = [i for i in languages if i in sil.ISO6393]
   return languages_iso6393
 
+def languages_wo_constructed_but_in_ISO6393(resource):
+  languages_in_resource = [i for i in globals()[resource].languages() \
+                     if i in sil.ISO6393]
+  
+  # Substitute retired codes with the updated ones.
+  languages_in_resource = [sil.ISO6393[i]['changeto'] if \
+                    sil.ISO6393[i].get('retired') and 
+                    sil.ISO6393[i]['changeto'] != ""\
+                    else i \
+                    for i in languages_in_resource]
+  return list(set(languages_in_resource))
+
+def count_num_tokens(resource):
+  languages_in_resource = languages_wo_constructed_but_in_ISO6393(resource)
+  num_tokens = 0
+  for lang, sent in  globals()[resource].source_sents():
+    if sil.ISO6393.get(lang):
+      lang = sil.ISO6393.get(lang).get('changeto') if sil.ISO6393.get(lang).get('retired') and \
+      sil.ISO6393.get(lang).get('changeto') != "" else lang
+    if lang in languages_in_resource:
+      num_tokens+= sent.count(" ")+1
+  return num_tokens
+
 def count_living_languages(resource, shutup=False):
   languages = globals()[resource].languages()
   languages_iso6393 = [i for i in languages if i in sil.ISO6393]
@@ -69,6 +92,7 @@ def count_living_languages(resource, shutup=False):
     print "Original #Languages :", len(set(languages))
     print "#Languages in ISO:", num_in_ISO
     print "#Languages in ISO (w/o constructed)", num_in_iso_without_con
+    print "#Tokens for languages in ISO (w/o constructed)", count_num_tokens(resource)
     print "#LivingLanguages:", len(set(livinglanguages))
     print "#Families:", len(set(languagefamilies))
     print "Languages not in ISO because:", not_in_ISO
@@ -96,19 +120,11 @@ def count_source_per_language(l):
       print('# of languages that appear in exactly ' + str(key) 
                             + ' datasource(s): ' + str(countdic[key]))
 
+
 def count_source_perlanguage2(ll):
   ll_numsources = Counter()
   for resource in ['udhr', 'omniglot', 'odin', 'wikipedia']:
-    languages_in_resource = [i for i in globals()[resource].languages() \
-                         if i in sil.ISO6393]
-    
-    # Substitute retired codes with the updated ones.
-    languages_in_resource = [sil.ISO6393[i]['changeto'] if \
-                        sil.ISO6393[i].get('retired') and 
-                        sil.ISO6393[i]['changeto'] != ""\
-                        else i \
-                        for i in languages_in_resource]
-    
+    languages_in_resource = languages_wo_constructed_but_in_ISO6393(resource)
     for lang in set(languages_in_resource):
       if lang in ll:
         ll_numsources[lang] +=1
@@ -122,9 +138,8 @@ def count_source_perlanguage2(ll):
   for key in numsources_ll.keys():
     print('# of languages that appear in exactly ' + str(key) 
           + ' datasource(s): ' + str(len(numsources_ll[key])))
-    
-  
-    
+
+######################################################################  
 
 # USAGE:
 livinglanguages_in_seedling = set()
@@ -136,6 +151,8 @@ for resource in ['udhr', 'omniglot', 'odin', 'wikipedia']:
   
   livinglanguages_in_seedling.update(livivinglanguages_in_ethnologue)
   languages_with_iso6393_in_seedling_without_constructed.update(languages_in_iso6393_without_constructed)
+  
+  
   
   #source_per_language = source_per_language \
   #                               + list(set(livinglanguages_in_seedling))
