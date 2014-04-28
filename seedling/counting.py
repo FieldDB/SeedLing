@@ -59,7 +59,7 @@ def count_living_languages(resource, shutup=False):
   for con in num_constructed:
     languages_iso6393.remove(con)
     
-  num_in_iso_without_con = len(languages_iso6393)
+  num_in_iso_without_con = len(set(languages_iso6393))
   
 
   # Check why are languages not in ISO.
