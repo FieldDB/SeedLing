@@ -21,11 +21,23 @@ def count_living_languages(resource, shutup=False):
   languages = globals()[resource].languages()
   languages_iso6393 = [i for i in languages if i in sil.ISO6393]
   
+  # Substitute retired codes with the updated ones.
   language_iso6393 = [sil.ISO6393[i]['changeto'] if \
-                      sil.ISO6393[i].get('retired') else i \
+                      sil.ISO6393[i].get('retired') and 
+                      sil.ISO6393[i]['changeto'] != ""\
+                      else i \
                       for i in languages_iso6393]
   
   num_in_ISO = len(languages_iso6393)
+  
+  num_constructed = [i for i in language_iso6393 if \
+                     sil.ISO6393[i.split("_")[0]].get('type') == "Constructed"]
+  
+  for con in num_constructed:
+    languages_iso6393.remove(con)
+    
+  num_in_iso_without_con = len(languages_iso6393)
+
   # Check why are languages not in ISO.
   not_in_ISO = {i:check_lang(i, option="Status") for i in \
                 set(languages).difference(languages_iso6393)}
@@ -55,6 +67,7 @@ def count_living_languages(resource, shutup=False):
     print resource
     print "Original #Languages :", len(languages)
     print "#Languages in ISO:", num_in_ISO
+    print "#Languages in ISO (w/o constructed)", num_in_iso_without_con
     print "#LivingLanguages:", len(livinglanguages)
     print "#Families:", len(languagefamilies)
     print "Languages not in ISO because:", not_in_ISO
@@ -76,7 +89,7 @@ def count_source_per_language(l):
     d = defaultdict(int)
     for lang in l:
         d[lang] += 1
-    print(d)
+    ##print(d)
     countdic = count_freqs(d)
     for key in countdic.keys():
       print('# of languages that appear in exactly ' + str(key) 
@@ -93,9 +106,13 @@ for resource in ['udhr', 'omniglot', 'odin', 'wikipedia']: # 'udhr', 'omniglot',
                                  + list(set(livinglanguages_in_seedling))
   source_per_living_language = source_per_living_language \
                                  + list(set(livinglanguages_in_seedling))
-                                 
+  
+  
+  
 print "Combined #Languages:", len(livinglanguages_in_seedling)
 print("\nAll languages in ISO:")
 count_source_per_language(source_per_language)
 print("\nLiving Languages:")
 count_source_per_language(source_per_living_language)
+
+
