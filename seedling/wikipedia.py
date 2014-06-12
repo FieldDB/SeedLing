@@ -7,6 +7,7 @@ parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), \
              os.path.pardir))
 sys.path.append(parentddir)
 from utils import make_tarfile
+from wikicodes import WIKI2ISO
 
 try:
   from bs4 import BeautifulSoup
@@ -22,7 +23,7 @@ def extract_wikipedia(WIKIDUMP_DIR):
 
 
 # Extracts all documents (articles) from wikipedia dumps (in WIKIDUMP_DIR)
-def run_wikiextractor(WIKIDUMP_DIR, WIKITEXTS_DIR):
+def run_wikiextractor(WIKIDUMP_DIR, WIKITEXTS_DIR, filesize = "5000K"):
   WIKIEXTRACTOR_DIR = '../'
   if not os.path.exists('../data/wikipedia/texts/'):
     os.makedirs('../data/wikipedia/texts/')
@@ -33,7 +34,7 @@ def run_wikiextractor(WIKIDUMP_DIR, WIKITEXTS_DIR):
       filepath = os.path.join(root, filename)
       # run WikiExtractor
       process = subprocess.Popen('bzcat ' + filepath + ' | python ' 
-                        + WIKIEXTRACTOR_DIR + 'WikiExtractor.py -cb 5000K -o '
+                        + WIKIEXTRACTOR_DIR + 'WikiExtractor.py -cb ' + filesize + ' -o '
                         + WIKITEXTS_DIR + filename , stdout=subprocess.PIPE, 
                                                                    shell=True)
       outputRaw, error = process.communicate()
@@ -66,29 +67,65 @@ def clean(s):
 
 
 
-def clean_wikipedia(wiki_raw_dir):
-    '''Clean all files in wiki_raw_dir and write clean files into
-       ../data/wikipedia/clean/'''
-    if not os.path.exists('../data/wikipedia/'):
-        os.makedirs('../data/wikipedia/')
+def get_iso(filepath):
+    '''
+    Extract language code from filepath and convert it into iso-6393 language code.
+    Return the iso code. Return None if the language code can not be mapped into ISO.
+    '''
+    language = re.search('\/([\w]+)wiki-', filepath).group(1)
+    isolanguage = WIKI2ISO[language]
+    #isolanguage = wikicode2iso(language)
+    if isolanguage == None:
+          print('Skip language ' + language + ': could not be converted into ISO.')
+    return isolanguage
 
-    WIKIPEDIA_CLEAN_DIR = '../data/wikipedia/clean/'
+#def createpath(filepath):
+    #'''Creates a filepath if it does not exist already'''
+
+
+def clean_wikipedia(wiki_raw_dir, option = "firstfile"):
+    '''
+    Clean all files in wiki_raw_dir and write clean files into
+       ../data/wikipedia/clean/
+       Options: firstfile: cleans and stores only one folder/file (00) per language. For "normal" WikiExtractor setting, this is 5000K.
+             all: cleans and stores all 
+    '''
+    c = 1
+    skippedcount = 1
+
+    if not os.path.exists(wiki_raw_dir):
+        print('no such path:' + wiki_raw_dir)
+
+    if not os.path.exists('data/wikipedia/'):
+        os.makedirs('data/wikipedia/')
+
+    WIKIPEDIA_CLEAN_DIR = 'data/wikipedia/clean/'
     TEMP_WIKIPEDIA_CLEAN_DIR = tempfile.mkdtemp()
 
     for root, dirnames, filenames in os.walk(wiki_raw_dir):
         for filename in filenames:
           filepath = os.path.join(root, filename)
+
+          # get number for language file and in case of option=firstfile
+          # skip all files with number other than 00
+          count = re.search('wiki_([\d]+).bz2', filepath).group(1)
+          #if option == "firstfile" and (count != '00' or not 'AA/wiki' in filepath): # stattdessen alle AA files?!?
+              #if count == '01' and 'AA/wiki' in filepath:
+          if option == "firstfile" and not 'AA/wiki' in filepath:
+              if count == '00' and 'AB/wiki' in filepath:
+                  print('[option=firstfile] More files available ' + str(skippedcount) + ': ' + filepath)
+                  skippedcount += 1
+              continue
           
-          # get number for language file
-          count = re.search('wiki_([\d]+).bz2', filepath).group(1)  
-
-          # get language code from filepath
-          language = re.search('\/([\w]+)wiki-', filepath).group(1)
+          language = get_iso(filepath)
+          if language == None:
+              continue            
   
-          if not os.path.exists('../data/wikipedia/clean/' + language):
-              os.makedirs('../data/wikipedia/clean/' + language)
+          if not os.path.exists('data/wikipedia/clean/' + language):
+              os.makedirs('data/wikipedia/clean/' + language)
 
-          print('cleaning ' + filepath)
+          print('cleaning file ' + str(c) + ': ' + filepath)
+          c += 1
           with bz2.BZ2File(filepath, 'r') as openZip:
               f = openZip.read()
               
@@ -101,24 +138,24 @@ def clean_wikipedia(wiki_raw_dir):
               soup = BeautifulSoup('<docs>' + uni_f + '</docs>')
               doclist = soup.findAll('doc')
 
-              with codecs.open(TEMP_WIKIPEDIA_CLEAN_DIR + '/' + language + '_'
+          with codecs.open(TEMP_WIKIPEDIA_CLEAN_DIR + '/' + language + '_'
                                + str(count), 'a', 'utf-8') as out:
 
-                  for doc in doclist:
-                      content = doc.getText()
-                      cleancontent = clean(content.strip())
-                      out.write(cleancontent.strip() + '\n')
+              for doc in doclist:
+                  content = doc.getText()
+                  cleancontent = clean(content.strip())
+                  out.write(cleancontent.strip() + '\n')
 
-                  make_tarfile(WIKIPEDIA_CLEAN_DIR + language + '/' + language
-                               + '_' + str(count) + '.tar', 
-                               TEMP_WIKIPEDIA_CLEAN_DIR + '/' + language + '_'
-                               + str(count))
-
+              make_tarfile(WIKIPEDIA_CLEAN_DIR + language + '/' + language 
+                  + '_' + str(count) + '.tar', TEMP_WIKIPEDIA_CLEAN_DIR + '/'
+                  + language + '_' + str(count))
 
 
 
 #extract_wikipedia('/media/ec609cb5-510c-467e-9655-5e72e99c4153/wikidumps/')
 #clean_wikipedia('../data/wikipedia/texts/')
+#clean_wikipedia('/media/susanne/ec609cb5-510c-467e-9655-5e72e99c4153/sugali_wikipedia/testtexts/')
+clean_wikipedia('/media/susanne/ec609cb5-510c-467e-9655-5e72e99c4153/sugali_wikipedia/texts/')
 
 def source_sents(cleanedwikidir=parentddir+"/data/wikipedia/clean/"):
   """
