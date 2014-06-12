@@ -22,8 +22,10 @@ def extract_wikipedia(WIKIDUMP_DIR):
   print('Wikipedia is cleaned.')
 
 
-# Extracts all documents (articles) from wikipedia dumps (in WIKIDUMP_DIR)
 def run_wikiextractor(WIKIDUMP_DIR, WIKITEXTS_DIR, filesize = "5000K"):
+  '''
+  Extract all documents (articles) from wikipedia dumps (in WIKIDUMP_DIR)
+  '''
   WIKIEXTRACTOR_DIR = '../'
   if not os.path.exists('../data/wikipedia/texts/'):
     os.makedirs('../data/wikipedia/texts/')
@@ -46,7 +48,7 @@ def clean(s):
     # (http://en.wikipedia.org/wiki/Help:Magic_words)
     s = re.sub('__[A-Z]+__', '', s)
     
-    # delete all square backets along wiht thier content          
+    # delete all square backets along wiht their content          
     s = re.sub(' ?\[.*?\]', '', s)
 
     # delete parentheses that contain no letters           
@@ -79,16 +81,17 @@ def get_iso(filepath):
           print('Skip language ' + language + ': could not be converted into ISO.')
     return isolanguage
 
-#def createpath(filepath):
-    #'''Creates a filepath if it does not exist already'''
 
 
 def clean_wikipedia(wiki_raw_dir, option = "firstfile"):
     '''
     Clean all files in wiki_raw_dir and write clean files into
-       ../data/wikipedia/clean/
-       Options: firstfile: cleans and stores only one folder/file (00) per language. For "normal" WikiExtractor setting, this is 5000K.
-             all: cleans and stores all 
+    data/wikipedia/clean/ .
+    Options:
+    - firstfile: cleans and stores only one folder (AA) per language. For 
+      "normal" WikiExtractor setting, this corresponds to 100 files with
+      5000K each.
+    - all: cleans and stores all folders 
     '''
     c = 1
     skippedcount = 1
@@ -107,10 +110,8 @@ def clean_wikipedia(wiki_raw_dir, option = "firstfile"):
           filepath = os.path.join(root, filename)
 
           # get number for language file and in case of option=firstfile
-          # skip all files with number other than 00
+          # skip all files that are not in a AA folder
           count = re.search('wiki_([\d]+).bz2', filepath).group(1)
-          #if option == "firstfile" and (count != '00' or not 'AA/wiki' in filepath): # stattdessen alle AA files?!?
-              #if count == '01' and 'AA/wiki' in filepath:
           if option == "firstfile" and not 'AA/wiki' in filepath:
               if count == '00' and 'AB/wiki' in filepath:
                   print('[option=firstfile] More files available ' + str(skippedcount) + ': ' + filepath)
@@ -154,7 +155,6 @@ def clean_wikipedia(wiki_raw_dir, option = "firstfile"):
 
 #extract_wikipedia('/media/ec609cb5-510c-467e-9655-5e72e99c4153/wikidumps/')
 #clean_wikipedia('../data/wikipedia/texts/')
-#clean_wikipedia('/media/susanne/ec609cb5-510c-467e-9655-5e72e99c4153/sugali_wikipedia/testtexts/')
 clean_wikipedia('/media/susanne/ec609cb5-510c-467e-9655-5e72e99c4153/sugali_wikipedia/texts/')
 
 def source_sents(cleanedwikidir=parentddir+"/data/wikipedia/clean/"):
