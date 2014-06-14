@@ -75,8 +75,11 @@ def get_iso(filepath):
     Return the iso code. Return None if the language code can not be mapped into ISO.
     '''
     language = re.search('\/([\w]+)wiki-', filepath).group(1)
-    isolanguage = WIKI2ISO[language]
-    #isolanguage = wikicode2iso(language)
+    try:
+        isolanguage = WIKI2ISO[language]
+        #isolanguage = wikicode2iso(language)
+    except KeyError:
+          isolanguage = None
     if isolanguage == None:
           print('Skip language ' + language + ': could not be converted into ISO.')
     return isolanguage
