@@ -9131,6 +9131,7 @@ for i in listofwikicodes.split('\n'):
 # print all wikipedia language codes and their corresponding iso-6393 code
 l = WIKI2ISO.keys()
 l.sort()
+print('List of wikipedia language codes with the iso-6393 code they are/were automatically mapped to using wikicodes.py:\n')
 for key in l:
   print(key + ' ' + str(WIKI2ISO[key]))
 '''
