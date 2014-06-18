@@ -93,7 +93,9 @@ def clean_wikipedia(wiki_raw_dir, option = "firstfile"):
     Options:
     - firstfile: cleans and stores only one folder (AA) per language. For 
       "normal" WikiExtractor setting, this corresponds to 100 files with
-      5000K each.
+      5000K each. Currently this means, that for the 20 most frequent
+      languages (see http://meta.wikimedia.org/wiki/List_of_Wikipedias), part
+      of the data is ignored.
     - all: cleans and stores all folders 
     '''
     c = 1
@@ -158,7 +160,7 @@ def clean_wikipedia(wiki_raw_dir, option = "firstfile"):
 
 #extract_wikipedia('/media/ec609cb5-510c-467e-9655-5e72e99c4153/wikidumps/')
 #clean_wikipedia('../data/wikipedia/texts/')
-clean_wikipedia('/media/susanne/ec609cb5-510c-467e-9655-5e72e99c4153/sugali_wikipedia/texts/')
+clean_wikipedia('/media/susanne/ec609cb5-510c-467e-9655-5e72e99c4153/sugali_wikipedia/resttexts/')
 
 def source_sents(cleanedwikidir=parentddir+"/data/wikipedia/clean/"):
   """

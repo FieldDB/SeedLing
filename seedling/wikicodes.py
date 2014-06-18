@@ -8326,7 +8326,7 @@ za 	zha 	zha 	Zhuang 	Macrolanguage 	Living 	more ...
 zh 	zho / chi*  	zho 	Chinese 	Macrolanguage 	Living 	more ...
 zu 	zul 	zul 	Zulu 	Individual 	Living 	more ..."""
 
-# from http://meta.wikimedia.org/wiki/Special_language_codes
+# from http://meta.wikimedia.org/wiki/Special_language_codes and http://meta.wikimedia.org/wiki/List_of_Wikipedias
 wikispecialcodes = """als gsw
 bat-smg sgs
 bat_smg sgs
@@ -8342,7 +8342,10 @@ zh_classical lzh
 zh-min-nan nan
 zh_min_nan nan
 zh-yue yue
-zh_yue yue""" #simple en
+zh_yue yue
+nrm None
+no nob""" # Norwegian Bokmal instaead of general Norwegian
+#simple en
 #mo ron
 #map-bms jv
 #map_bms jv
@@ -9010,7 +9013,6 @@ rn
 ro
 roa_rup
 roa_tara
-rp
 ru
 rue
 rw
@@ -9107,12 +9109,12 @@ def wikicode2iso(wikicode):
     eml and simple.
     '''
     wikicode = wikicode.split()[0]
-    for i in isomapping.split('\n'):
-        if wikicode == i.split(' 	')[0] and i.split(' 	')[2].lower() != '-':
-            return i.split(' 	')[2].lower()
     for i in wikispecialcodes.split('\n'):
         if wikicode == i.split(' ')[0]:
             return i.split(' ')[1]
+    for i in isomapping.split('\n'):
+        if wikicode == i.split(' 	')[0] and i.split(' 	')[2].lower() != '-':
+            return i.split(' 	')[2].lower()
     if isiso(wikicode):
         return wikicode
     else:
