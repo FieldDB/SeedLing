@@ -66,7 +66,15 @@ Detailed usage of the API can also be found in `demo.py`.
 Getting Wikipedia
 ====
 
-Due to the massive size of the Wikipedia data, we are unable to host the data online. However, we encourage SeedLing users to take part in building the Wikipedia data from the SeedLing corpus. A fruitful experience, you will find.
+There are two ways to access the Wikipedia data:
+1. Plant your own Wiki
+2. Access it from our cloud storage
+
+
+Plant your own Wiki
+----
+
+We encourage SeedLing users to take part in building the Wikipedia data from the SeedLing corpus. A fruitful experience, you will find.
 
 Please **ENSURE** that you have sufficient space on your harddisk (~50-70GB) and also this process of download and cleaning might take up to a week for **ALL** languages available in Wikipedia. 
 
@@ -84,10 +92,24 @@ For more detailed, step-by-step instructions:
  - Finally, you can use the cleaning function in `wikipedia.py` to clean the Wikipedia data and assigns the ISO 639-3 language code to textfiles. The cleaning function can be called as such:
 
 ```
+import codecs
+from seedling.wikipedia import clean
 
+extracted_wiki_dir = "/home/yourusername/path/to/extracted/wiki/"
+cleaned_wiki_dir = "/home/yourusername/path/to/cleaned/wiki/"
+
+for i in os.listdir(extracted_wiki_dir):
+  dirpath, filename = os.path.split(i)
+  with codecs.open(i, 'r', 'utf8') as fin, codecs.open(clean_wiki_dir+"/"+filename, 'w', 'utf8') as fout:
+    fout.write(clean(fin.read()))
 ```
 
 Please feel free to contact the colloborators in the SeedLing project if you encounter problems with getting the Wikipedia data.
+
+Access it from our cloud storage
+----
+
+To be updated.
 
 ***
 Cite
