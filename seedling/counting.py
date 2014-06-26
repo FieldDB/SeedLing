@@ -37,6 +37,7 @@ def count_num_tokens(resource):
       lang = sil.ISO6393.get(lang).get('changeto') if sil.ISO6393.get(lang).get('retired') and \
       sil.ISO6393.get(lang).get('changeto') != "" else lang
     if lang in languages_in_resource:
+      print sent
       num_tokens+= sent.count(" ")+1
   return num_tokens
 
@@ -121,6 +122,7 @@ def count_source_per_language(l):
       print('# of languages that appear in exactly ' + str(key) 
                             + ' datasource(s): ' + str(countdic[key]))
 
+"""
 def count_source_perlanguage2(ll):
   ll_numsources = Counter()
   for resource in ['udhr', 'omniglot', 'odin', 'wikipedia']:
@@ -138,6 +140,7 @@ def count_source_perlanguage2(ll):
   for key in numsources_ll.keys():
     print('# of languages that appear in exactly ' + str(key) 
           + ' datasource(s): ' + str(len(numsources_ll[key])))
+"""
 
 ######################################################################  
 
@@ -154,20 +157,15 @@ for resource in ['udhr', 'omniglot', 'odin', 'wikipedia']:
   livinglanguages_in_seedling.update(livivinglanguages_in_ethnologue)
   languages_with_iso6393_in_seedling_without_constructed.update(languages_in_iso6393_without_constructed)
   
-  
-  source_per_language = source_per_language \
-                                 + list(set(livinglanguages_in_seedling))
-  source_per_living_language = source_per_living_language \
-                                 + list(set(livivinglanguages_in_ethnologue))
-  
-  
+  source_per_language.update(languages_in_iso6393_without_constructed)
+  source_per_living_language.update(livivinglanguages_in_ethnologue)
 
 print "Combined #Languages:", len(languages_with_iso6393_in_seedling_without_constructed)
 print("\nAll languages in ISO:")
 #count_source_perlanguage2(languages_with_iso6393_in_seedling_without_constructed)
-count_source_per_language(source_per_language)
+count_source_per_language(list(source_per_language))
 print("\nLiving Languages:")
 #count_source_perlanguage2(livinglanguages_in_seedling)
-count_source_per_language(source_per_language)
+count_source_per_language(list(source_per_living_language))
 
 
