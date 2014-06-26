@@ -67,8 +67,8 @@ Getting Wikipedia
 ====
 
 There are two ways to access the Wikipedia data:
-1. Plant your own Wiki
-2. Access it from our cloud storage
+ 1. Plant your own Wiki
+ 2. Access it from our cloud storage
 
 
 Plant your own Wiki
